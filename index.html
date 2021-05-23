@@ -27,7 +27,7 @@
 				{{ successMsg }}
 			</div>
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-12" v-if="tableCliente">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr class="text-center bg-info text-light">
@@ -43,21 +43,21 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center">
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td><a href="#" class="text-success"><i class="bi bi-tools" ></i></a></td>
-								<td><a href="#" class="text-success"><i class="bi bi-trash-fill" style="color:red" ></i></a></td>
+							<tr class="text-center" v-for="cliente in cliente">
+								<td>{{cliente.nome}}</td>
+								<td>{{cliente.cpf}}</td>
+								<td>{{cliente.endereco}}</td>
+								<td>{{cliente.residencial}}</td>
+								<td>{{cliente.comercial}}</td>
+								<td>{{cliente.celular}}</td>
+								<td>{{cliente.email}}</td>
+								<td><a href="#" class="text-success"><i class="bi bi-tools" @click="showEditModalcliente=true; selectCliente(cliente);" ></i></a></td>
+								<td><a href="#" class="text-success"><i class="bi bi-trash-fill" style="color:red" @click="showRemoveModalCliente=true; selectCliente(cliente);"></i></a></td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
-				<div class="col-lg-12">
+				<div class="col-lg-12" v-if="tableCliente">
 					<table class="table table-bordered table-striped">
 						<thead>
 							<tr class="text-center bg-info text-light">
@@ -71,18 +71,89 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr class="text-center">
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
-								<td></td>
+							<tr class="text-center" v-for="cliente in cliente">
+								<td>{{cliente.nome}}</td>
+								<td>{{cliente.cpf}}</td>
+								<td>{{cliente.endereco}}</td>
+								<td>{{cliente.residencial}}</td>
+								<td>{{cliente.comercial}}</td>
+								<td>{{cliente.celular}}</td>
+								<td>{{cliente.email}}</td>
 							</tr>
 						</tbody>
 					</table>
 				</div>
+
+				<!-- Form para login -->
+				<div id="overlay" v-if="showAddModalLogin">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class ="modal-title">Login </h5>
+								<button type="button" class="close" @click="showAddModalLogin=false">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body p-4">
+								<form action="#" method="post">
+									<div class="form-group">
+										<input type="usuario" name="Usuario" class="form-control form-control-lg" placeholder="Usuario" v-model="login.usuario" required>
+									</div>
+									<div class="form-group">
+										<input type="Senha" name="Senha" class="form-control form-control-lg" placeholder="Senha" v-model="login.senha" required>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Form para adicionar novo Usuario -->
+				<div id="overlay" v-if="showAddModalUsuario">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class ="modal-title">Adicionar novo Usuario </h5>
+								<button type="button" class="close" @click="showAddModalUsuario=false">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body p-4">
+								<form action="#" method="post">
+									<div class="form-group">
+										<input type="título" name="Título" class="form-control form-control-lg" placeholder="Nome" v-model="newUsuario.nome" required>
+									</div>
+									<div class="form-group">
+										<input type="CPF" name="CPF" class="form-control form-control-lg" placeholder="CPF" v-model="newUsuario.CPF" required>
+									</div>
+									<div class="form-group">
+										<input type="Endereco" name="Rndereco" class="form-control form-control-lg" placeholder="Endereco" v-model="newUsuario.Endereco" required>
+									</div>
+									<div class="form-group">
+										<input type="Telefone" name="Telefone" class="form-control form-control-lg" placeholder="Telefone" v-model="newUsuario.Telefone" required>
+									</div>
+									<div class="form-group">
+										<label>Selecione o tipo de telefone</label>
+										<select class="form-control input-lg" v-model="newLivro.editora_ideditora" required>
+											<option value="" selected disabled></option>
+											<option value="Residencial">Residencial</option>
+											<option value="Comercial">Comercial</option>
+											<option value="celular">
+											Celular</option>  
+										</select>
+									</div>
+									<div class="form-group">
+										<input type="email" name="email" class="form-control form-control-lg" placeholder="email" v-model="newUsuario.email" required>
+									</div>
+									<div class="form-group">
+										<button class="btn btn-info btn-block btn-lg" @click="addLivro(); clearMsg();" >Registrar</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
 			</div>		
 		</div>
 	</div>
